@@ -1,13 +1,14 @@
 import React from "react";
 import Footer from "../components/Footer";
-import TemporizerContainer from "./TemporizerContainer";
+import { DivApp, H1 } from "../styled/App";
+import TemporizerContainer from "../components/TemporizerContainer";
 function App() {
   return (
-    <div className="App">
-      <h1>WE'RE LAUCHING SOON</h1>
+    <DivApp className="App">
+      <H1>WE'RE LAUCHING SOON</H1>
       <TemporizerContainer/>
       <Footer/>
-    </div>
+    </DivApp>
   );
 }
 
