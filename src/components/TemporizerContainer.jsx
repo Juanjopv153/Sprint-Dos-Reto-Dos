@@ -7,30 +7,48 @@ const TemporizerContainer = () => {
     segundos: 0,
     minutos: 0,
     horas: 0,
-    dias: 0
-  })
-  useEffect(() => {
-    localStorage.setItem('stateTemporizer', JSON.stringify({counter}))
-    counterTemporizer()
+    dias: 14
   })
 
-  const counterTemporizer = ()=>{
-    const stateTemporizer = JSON.parse(localStorage.getItem('stateTemporizer'))
-    if(stateTemporizer.state === false){
-      setCounter({ 
+  useEffect(() => {
+    let interval = setInterval(() => {
+      counterTemporizer()
+    }, 1000);
+    localStorage.setItem('timeCounter',JSON.stringify(counter))
+    document.title = `${counter.dias}:${counter.horas}:${counter.minutos}:${counter.segundos}`
+    return () => clearInterval(interval)
+  }, [counter])
+
+  const counterTemporizer = () => {
+    setCounter({
+      ...counter,
+      segundos: counter.segundos - 1 
+    })
+    if (counter.segundos <= 1 ) {
+      setCounter({
         ...counter,
-        state:true
+        segundos: 60,
+        minutos: counter.minutos -1
       })
     }
-    else{
-      setInterval(()=>{
-        setCounter({
-          ...counter,
-          segundos: counter.segundos + 1
-        })
-        localStorage.setItem('stateTemporizer', JSON.stringify(counter))
-      }, 1000)
+    if (counter.minutos <= 1 && counter.segundos <= 1) {
+      setCounter({
+        ...counter,
+        segundos: 60,
+        minutos: 60,
+        horas: counter.horas - 1
+      })
     }
+    if (counter.horas <= 1 && counter.minutos <= 1 && counter.segundos <= 1) {
+      setCounter({
+        ...counter,
+        segundos: 60,
+        minutos: 60,
+        horas: 24,
+        dias: counter.dias - 1
+      })
+    }
+
   }
 
   return (
