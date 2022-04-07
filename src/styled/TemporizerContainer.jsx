@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 const DivTemporizer = styled.div`
     display: flex;
-    gap: 10px;
+    gap: 30px;
 `
 const CounterBox = styled.div`
     font-size: 30px;
@@ -21,7 +21,7 @@ const CounterBox = styled.div`
 const Span = styled.span`
      color: red;
      text-align: center;
-     font-size: 120px;
+     font-size: 125px;
      margin: auto;
 `
 

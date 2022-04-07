@@ -12,9 +12,9 @@ const TemporizerContainer = () => {
 
   useEffect(() => {
     let interval = setInterval(() => {
+      validation()
       counterTemporizer()
     }, 1000);
-    localStorage.setItem('timeCounter',JSON.stringify(counter))
     document.title = `${counter.dias}:${counter.horas}:${counter.minutos}:${counter.segundos}`
     return () => clearInterval(interval)
   }, [counter])
@@ -22,33 +22,54 @@ const TemporizerContainer = () => {
   const counterTemporizer = () => {
     setCounter({
       ...counter,
-      segundos: counter.segundos - 1 
+      segundos: counter.segundos - 1
     })
-    if (counter.segundos <= 1 ) {
+    if (counter.segundos <= 1) {
       setCounter({
         ...counter,
-        segundos: 60,
-        minutos: counter.minutos -1
+        segundos: 59,
+        minutos: counter.minutos - 1
       })
     }
     if (counter.minutos <= 1 && counter.segundos <= 1) {
       setCounter({
         ...counter,
-        segundos: 60,
-        minutos: 60,
+        segundos: 59,
+        minutos: 59,
         horas: counter.horas - 1
       })
     }
     if (counter.horas <= 1 && counter.minutos <= 1 && counter.segundos <= 1) {
       setCounter({
         ...counter,
-        segundos: 60,
-        minutos: 60,
-        horas: 24,
+        segundos: 59,
+        minutos: 59,
+        horas: 23,
         dias: counter.dias - 1
       })
     }
+    localStorage.getItem('timeCounter', JSON.stringify())
+  }
 
+  const validation = () => {
+    if(localStorage.getItem('timeCounter') === null ){
+      setCounter({
+        ...counter,
+        state: true,
+      })
+      localStorage.setItem('timeCounter', JSON.stringify(counter))
+    }
+    else{
+      const setItem = JSON.parse(localStorage.getItem('timeCounter'))
+      setCounter({
+        ...counter,
+        segundos: setItem.segundos,
+        minutos: setItem.minutos,
+        horas: setItem.horas,
+        dias: setItem.dias
+      })
+      localStorage.setItem('timeCounter', JSON.stringify(counter))
+    }
   }
 
   return (
